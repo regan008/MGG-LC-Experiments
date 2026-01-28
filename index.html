@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapping the Gay Guides</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  <link rel="stylesheet" href="/src/styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <h1>Mapping the Gay Guides</h1>
+        <p class="subtitle">Exploring LGBTQ+ Spaces in America, 1965-2003</p>
+      </div>
+      <nav class="header-nav">
+        <button class="nav-btn active" data-view="explore">Explore</button>
+        <button class="nav-btn" data-view="about">About</button>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Explore View -->
+      <div id="explore-view" class="view active">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <!-- Search -->
+          <div class="panel search-panel">
+            <h3>Search</h3>
+            <input type="text" id="search-input" placeholder="Search by city, venue, or state...">
+            <div id="search-results" class="search-results"></div>
+          </div>
+
+          <!-- Filters -->
+          <div class="panel filters-panel">
+            <h3>Filters</h3>
+
+            <!-- Year Range -->
+            <div class="filter-group">
+              <label>Year Range</label>
+              <div class="year-slider-container">
+                <input type="range" id="year-min" min="1965" max="2003" value="1965">
+                <input type="range" id="year-max" min="1965" max="2003" value="2003">
+                <div class="year-labels">
+                  <span id="year-min-label">1965</span>
+                  <span id="year-max-label">2003</span>
+                </div>
+              </div>
+              <div class="year-animation">
+                <button id="play-btn" class="play-btn">&#9658; Play</button>
+                <span id="current-year-display"></span>
+              </div>
+            </div>
+
+            <!-- Publication -->
+            <div class="filter-group">
+              <label>Publication</label>
+              <div class="checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="filter-damrons" checked>
+                  Bob Damron's Address Book
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" id="filter-gaias" checked>
+                  Gaia's Guide
+                </label>
+              </div>
+            </div>
+
+            <!-- Category -->
+            <div class="filter-group">
+              <label>Category</label>
+              <select id="filter-category" multiple size="6">
+                <option value="" selected>All Categories</option>
+              </select>
+              <button id="clear-categories" class="clear-btn">Clear Selection</button>
+            </div>
+
+            <!-- State -->
+            <div class="filter-group">
+              <label>State</label>
+              <select id="filter-state">
+                <option value="">All States</option>
+              </select>
+            </div>
+
+            <button id="reset-filters" class="reset-btn">Reset All Filters</button>
+          </div>
+
+          <!-- Statistics -->
+          <div class="panel stats-panel">
+            <h3>Statistics</h3>
+            <div class="stat-item">
+              <span class="stat-label">Showing:</span>
+              <span id="visible-count" class="stat-value">0</span>
+              <span class="stat-label">of</span>
+              <span id="total-count" class="stat-value">0</span>
+              <span class="stat-label">locations</span>
+            </div>
+            <div id="category-breakdown" class="category-breakdown"></div>
+          </div>
+        </aside>
+
+        <!-- Map Container -->
+        <div class="map-container">
+          <div id="map"></div>
+          <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading data...</p>
+          </div>
+        </div>
+
+        <!-- Details Panel -->
+        <aside id="details-panel" class="details-panel hidden">
+          <button id="close-details" class="close-btn">&times;</button>
+          <div id="details-content"></div>
+        </aside>
+      </div>
+
+      <!-- About View -->
+      <div id="about-view" class="view">
+        <div class="about-content">
+          <section class="about-section">
+            <h2>About This Project</h2>
+            <p>[Placeholder: Project description text will be added here. This section will explain the Mapping the Gay Guides project, its goals, and significance.]</p>
+          </section>
+
+          <section class="about-section">
+            <h2>The Guidebooks</h2>
+            <div class="guidebook-info">
+              <div class="guidebook">
+                <h3>Bob Damron's Address Book</h3>
+                <p>[Placeholder: Description of Bob Damron's Address Book, its history, publication run (1964-present), and significance as the primary gay travel guide in America.]</p>
+              </div>
+              <div class="guidebook">
+                <h3>Gaia's Guide</h3>
+                <p>[Placeholder: Description of Gaia's Guide, its focus on women's and lesbian spaces, publication history, and how it differed from Damron's guide.]</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="about-section">
+            <h2>Understanding the Data</h2>
+            <h3>Categories</h3>
+            <p>[Placeholder: Explanation of venue categories, including historical context for terms that may be unfamiliar to modern readers.]</p>
+
+            <h3>Historical Context</h3>
+            <p>[Placeholder: Discussion of the historical period covered (1965-2003), including relevant legal and social context such as pre-Stonewall era, AIDS crisis, and evolving LGBTQ+ rights.]</p>
+
+            <h3>Sensitive Content</h3>
+            <p>[Placeholder: Explanation of categories like "cruising areas" and other sensitive content, providing historical context for why these spaces existed and their significance to LGBTQ+ history.]</p>
+          </section>
+
+          <section class="about-section">
+            <h2>Research Team</h2>
+            <p>[Placeholder: Information about the research team, institutional affiliations, and acknowledgments.]</p>
+          </section>
+
+          <section class="about-section">
+            <h2>How to Cite</h2>
+            <p>[Placeholder: Citation information for academic use of this resource.]</p>
+          </section>
+
+          <section class="about-section">
+            <h2>Contact</h2>
+            <p>[Placeholder: Contact information for questions, corrections, or collaboration inquiries.]</p>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>[Placeholder: Footer text with copyright, institutional information, and links]</p>
+    </footer>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
